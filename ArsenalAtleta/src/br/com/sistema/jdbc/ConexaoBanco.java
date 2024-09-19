@@ -11,10 +11,10 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Thiago William
+ *
  */
 public class ConexaoBanco {
-    final private String url = "jdbc:mysql://localhost/arsenalatleta";    
+    final private String url = "jdbc:mysql://localhost:3312/arsenalatleta";    
     final private String usuario = "root";    
     final private String senha = "";
     

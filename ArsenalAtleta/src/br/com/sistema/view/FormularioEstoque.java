@@ -6,6 +6,7 @@
 package br.com.sistema.view;
 
 import br.com.sistema.dao.ClientesDAO;
+import br.com.sistema.dao.Fachada;
 import br.com.sistema.dao.FornecedoresDAO;
 import br.com.sistema.dao.ProdutosDAO;
 import br.com.sistema.model.Clientes;
@@ -29,8 +30,8 @@ public class FormularioEstoque extends javax.swing.JFrame {
      * Creates new form FormularioClientes
      */
     public void listar(){
-        ProdutosDAO dao = new ProdutosDAO();
-        List<Produtos> lista= dao.Listar();
+        Fachada service = new Fachada();
+        List<Produtos> lista= service.listarProdutos();
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Produtos p: lista){
@@ -364,18 +365,18 @@ public class FormularioEstoque extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nome= txtDescricao.getText();
         Produtos obj = new Produtos();
-        ProdutosDAO dao = new ProdutosDAO();
+        Fachada service = new Fachada();
         Fornecedores f = new Fornecedores();
-        FornecedoresDAO daof = new FornecedoresDAO();
+        Fachada servicef = new Fachada();
         
-        obj = dao.BuscarProdutos(nome);
+        obj = service.buscarProduto(nome);
         if(obj.getDescricao() != null ) {
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtDescricao.setText(obj.getDescricao());
             txtQtdAtual.setText(String.valueOf(obj.getPreco()));
             txtQtd_nova.setText(String.valueOf(obj.getQtd_estoque()));
             
-            f = daof.BuscarFornecedores(obj.getFornecedores().getNome());
+            f = servicef.BuscarFornecedores(obj.getFornecedores().getNome());
           
             
         }else{
@@ -397,8 +398,8 @@ public class FormularioEstoque extends javax.swing.JFrame {
        
         obj.setFornecedores(f);
         
-        ProdutosDAO daop = new ProdutosDAO();
-        daop.Editar(obj);
+        Fachada servicep = new Fachada();
+        servicep.editarProduto(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_estoque);
         
@@ -419,8 +420,8 @@ public class FormularioEstoque extends javax.swing.JFrame {
         
         
         
-        ProdutosDAO dao = new ProdutosDAO();
-        dao.Salvar(obj);
+        Fachada service = new Fachada();
+        service.salvarProduto(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_estoque);
         
@@ -464,8 +465,8 @@ public class FormularioEstoque extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         Produtos obj = new Produtos();
         obj.setId(Integer.valueOf(txtCodigo.getText()));
-        ProdutosDAO daop = new ProdutosDAO();
-        daop.Excluir(obj);
+        Fachada servicep = new Fachada();
+        servicep.excluirProduto(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_estoque);
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -491,8 +492,8 @@ public class FormularioEstoque extends javax.swing.JFrame {
             qtdAtual = Integer.valueOf(txtQtdAtual.getText());
             qtd_nova = Integer.valueOf(txtQtd_nova.getText());
             qtd_atualizada = qtdAtual+qtd_nova;
-            ProdutosDAO daop = new ProdutosDAO();
-            daop.adicionarEstoque(idProduto, qtd_atualizada);
+            Fachada servicep = new Fachada();
+            servicep.adicionarEstoque(idProduto, qtd_atualizada);
             new Utilitarios().LimparTela(painel_estoque);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "erro:"+e);

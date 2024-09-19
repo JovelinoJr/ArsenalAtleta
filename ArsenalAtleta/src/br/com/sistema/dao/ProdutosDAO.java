@@ -114,7 +114,7 @@ public class ProdutosDAO {
     public List<Produtos>Listar(){
     List<Produtos> lista = new ArrayList<>();
         try {
-            String sql = "select p.id,p.descricap.p.preco,p.qtd_estoque,f.nome from tb_produtos as p inner join tb_fornecedores as f on(p.for_id=f.id)";
+            String sql = "select p.id,p.descricao,p.preco,p.qtd_estoque,f.nome from tb_produtos as p inner join tb_fornecedores as f on(p.for_id=f.id)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             

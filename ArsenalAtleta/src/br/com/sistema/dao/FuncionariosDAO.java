@@ -180,7 +180,7 @@ public class FuncionariosDAO {
     public List<Funcionarios>Filtrar(String nome){
     List<Funcionarios> lista = new ArrayList<>();
         try {
-            String sql = "select * from tb_funcionario where nome like ?";
+            String sql = "select * from tb_funcionarios where nome like ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, nome);
             ResultSet rs = stmt.executeQuery();
@@ -215,7 +215,7 @@ public class FuncionariosDAO {
     
     public void efetuarlogin(String email, String senha){
         try {
-            String sql = "select * from tb_funcionanrios where email=? and senha=?";
+            String sql = "select * from tb_funcionarios where email=? and senha=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setString(2, senha);

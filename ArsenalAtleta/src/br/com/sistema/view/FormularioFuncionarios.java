@@ -5,7 +5,7 @@
  */
 package br.com.sistema.view;
 
-import br.com.sistema.dao.ClientesDAO;
+import br.com.sistema.dao.Fachada;
 import br.com.sistema.dao.FuncionariosDAO;
 import br.com.sistema.model.Clientes;
 import br.com.sistema.model.Funcionarios;
@@ -25,8 +25,8 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
      * Creates new form FormularioClientes
      */
     public void listar(){
-        FuncionariosDAO dao = new FuncionariosDAO();
-        List<Funcionarios> lista= dao.Listar();
+        Fachada service = new Fachada();
+        List<Funcionarios> lista= service.listarTodosFuncionarios();
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Funcionarios c: lista){
@@ -553,9 +553,9 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nome= txtNome.getText();
         Funcionarios obj = new Funcionarios();
-        FuncionariosDAO dao = new FuncionariosDAO();
+        Fachada service = new Fachada();
         
-        obj = dao.BuscarFuncionario(nome);
+        obj = service.buscarFuncionarioPorNome(nome);
         if(obj.getNome() != null ) {
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtNome.setText(obj.getNome());
@@ -601,8 +601,8 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
         obj.setEstado(cbUF.getSelectedItem().toString());
         obj.setId(Integer.valueOf(txtCodigo.getText()));
         
-        FuncionariosDAO dao = new FuncionariosDAO();
-        dao.Editar(obj);
+        Fachada service = new Fachada();
+        service.editarFuncionario(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -632,8 +632,8 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
         obj.setEstado(cbUF.getSelectedItem().toString());
         
         
-        FuncionariosDAO dao = new FuncionariosDAO();
-        dao.Salvar(obj);
+        Fachada service = new Fachada();
+        service.salvarFuncionario(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -651,8 +651,8 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
 
     private void btnPesquisarNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarNomeActionPerformed
         String nome = "%"+txtPesquisarNome.getText()+"%";
-        FuncionariosDAO dao = new FuncionariosDAO();
-        List<Funcionarios> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Funcionarios> lista = service.filtrarFuncionariosPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Funcionarios c: lista){
@@ -682,8 +682,8 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
 
     private void txtPesquisarNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarNomeKeyPressed
         String nome = "%"+txtPesquisarNome.getText()+"%";
-        ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Funcionarios> lista = service.filtrarFuncionariosPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Clientes c: lista){
@@ -766,8 +766,8 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         Funcionarios obj = new Funcionarios();
         obj.setId(Integer.valueOf(txtCodigo.getText()));
-        FuncionariosDAO dao = new FuncionariosDAO();
-        dao.Excluir(obj);
+        Fachada service = new Fachada();
+        service.excluirFuncionario(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -778,8 +778,8 @@ public class FormularioFuncionarios extends javax.swing.JFrame {
 
     private void txtPesquisarNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarNomeKeyReleased
          String nome = "%"+txtPesquisarNome.getText()+"%";
-        FuncionariosDAO dao = new FuncionariosDAO();
-        List<Funcionarios> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Funcionarios> lista = service.filtrarFuncionariosPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Funcionarios c: lista){

@@ -5,6 +5,7 @@
  */
 package br.com.sistema.view;
 
+import br.com.sistema.dao.Fachada;
 import br.com.sistema.dao.FuncionariosDAO;
 import javax.swing.JOptionPane;
 
@@ -165,8 +166,8 @@ public class FormularioLogin extends javax.swing.JFrame {
             String email, senha;
             email = txtEmail.getText();
             senha = txtSenha.getText();
-            FuncionariosDAO dao = new FuncionariosDAO();
-            dao.efetuarlogin(email, senha);
+            Fachada service = new Fachada();
+            service.efetuarLogin(email, senha);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro :"+ e);
         }

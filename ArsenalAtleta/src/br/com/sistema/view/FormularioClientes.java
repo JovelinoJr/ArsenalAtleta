@@ -6,6 +6,7 @@
 package br.com.sistema.view;
 
 import br.com.sistema.dao.ClientesDAO;
+import br.com.sistema.dao.Fachada;
 import br.com.sistema.model.Clientes;
 import br.com.sistema.utilitarios.Utilitarios;
 import java.awt.event.KeyEvent;
@@ -23,8 +24,8 @@ public class FormularioClientes extends javax.swing.JFrame {
      * Creates new form FormularioClientes
      */
     public void listar(){
-        ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista= dao.Listar();
+        Fachada service = new Fachada();
+        List<Clientes> lista= service.ListarCliente();
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Clientes c: lista){
@@ -527,9 +528,9 @@ public class FormularioClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nome= txtNome.getText();
         Clientes obj = new Clientes();
-        ClientesDAO dao = new ClientesDAO();
+        Fachada service = new Fachada();
         
-        obj = dao.BuscarCliente(nome);
+        obj = service.buscarCliente(nome);
         if(obj.getNome() != null ) {
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtNome.setText(obj.getNome());
@@ -570,8 +571,8 @@ public class FormularioClientes extends javax.swing.JFrame {
         obj.setEstado(cbUF.getSelectedItem().toString());
         obj.setId(Integer.valueOf(txtCodigo.getText()));
         
-        ClientesDAO dao = new ClientesDAO();
-        dao.Editar(obj);
+        Fachada service = new Fachada();
+        service.editarCliente(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -598,8 +599,8 @@ public class FormularioClientes extends javax.swing.JFrame {
         obj.setEstado(cbUF.getSelectedItem().toString());
         
         
-        ClientesDAO dao = new ClientesDAO();
-        dao.Salvar(obj);
+        Fachada service = new Fachada();
+        service.salvarCliente(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -617,8 +618,8 @@ public class FormularioClientes extends javax.swing.JFrame {
 
     private void btnPesquisarNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarNomeActionPerformed
         String nome = "%"+txtPesquisarNome.getText()+"%";
-        ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Clientes> lista = service.filtrarClientesPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Clientes c: lista){
@@ -647,8 +648,8 @@ public class FormularioClientes extends javax.swing.JFrame {
 
     private void txtPesquisarNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarNomeKeyPressed
         String nome = "%"+txtPesquisarNome.getText()+"%";
-        ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Clientes> lista = service.filtrarClientesPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Clientes c: lista){
@@ -726,8 +727,8 @@ public class FormularioClientes extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         Clientes obj = new Clientes();
         obj.setId(Integer.valueOf(txtCodigo.getText()));
-        ClientesDAO dao = new ClientesDAO();
-        dao.Excluir(obj);
+        Fachada service = new Fachada();
+        service.excluirCliente(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
     }//GEN-LAST:event_btnExcluirActionPerformed

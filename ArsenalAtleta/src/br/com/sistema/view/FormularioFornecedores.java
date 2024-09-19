@@ -6,6 +6,7 @@
 package br.com.sistema.view;
 
 import br.com.sistema.dao.ClientesDAO;
+import br.com.sistema.dao.Fachada;
 import br.com.sistema.dao.FornecedoresDAO;
 import br.com.sistema.model.Clientes;
 import br.com.sistema.model.Fornecedores;
@@ -25,8 +26,8 @@ public class FormularioFornecedores extends javax.swing.JFrame {
      * Creates new form FormularioClientes
      */
     public void listar(){
-        FornecedoresDAO dao = new FornecedoresDAO();
-        List<Fornecedores> lista= dao.Listar();
+        Fachada service = new Fachada();
+        List<Fornecedores> lista= service.Listar();
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Fornecedores c: lista){
@@ -519,9 +520,9 @@ public class FormularioFornecedores extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nome= txtNome.getText();
         Fornecedores obj = new Fornecedores();
-        FornecedoresDAO dao = new FornecedoresDAO();
+        Fachada service = new Fachada();
         
-        obj = dao.BuscarFornecedores(nome);
+        obj = service.BuscarFornecedores(nome);
         if(obj.getNome() != null ) {
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtNome.setText(obj.getNome());
@@ -560,8 +561,8 @@ public class FormularioFornecedores extends javax.swing.JFrame {
         obj.setEstado(cbUF.getSelectedItem().toString());
         obj.setId(Integer.valueOf(txtCodigo.getText()));
         
-        FornecedoresDAO dao = new FornecedoresDAO();
-        dao.Editar(obj);
+        Fachada service = new Fachada();
+        service.editarFornecedores(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -587,8 +588,8 @@ public class FormularioFornecedores extends javax.swing.JFrame {
         obj.setEstado(cbUF.getSelectedItem().toString());
         
         
-        FornecedoresDAO dao = new FornecedoresDAO();
-        dao.Salvar(obj);
+        Fachada service = new Fachada();
+        service.salvarFornecedores(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -606,8 +607,8 @@ public class FormularioFornecedores extends javax.swing.JFrame {
 
     private void btnPesquisarNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarNomeActionPerformed
         String nome = "%"+txtPesquisarNome.getText()+"%";
-        FornecedoresDAO dao = new FornecedoresDAO();
-        List<Fornecedores> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Fornecedores> lista = service.Filtrar(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Fornecedores c: lista){
@@ -635,8 +636,8 @@ public class FormularioFornecedores extends javax.swing.JFrame {
 
     private void txtPesquisarNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarNomeKeyPressed
         String nome = "%"+txtPesquisarNome.getText()+"%";
-        FornecedoresDAO dao = new FornecedoresDAO();
-        List<Fornecedores> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Fornecedores> lista = service.Filtrar(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Fornecedores c: lista){
@@ -666,9 +667,9 @@ public class FormularioFornecedores extends javax.swing.JFrame {
         if(evt.getKeyCode()== KeyEvent.VK_ENTER){
             String nome= txtNome.getText();
         Fornecedores obj = new Fornecedores();
-        FornecedoresDAO dao = new FornecedoresDAO();
+        Fachada service = new Fachada();
         
-        obj = dao.BuscarFornecedores(nome);
+        obj = service.BuscarFornecedores(nome);
         if(obj.getNome() != null ) {
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtNome.setText(obj.getNome());
@@ -711,8 +712,8 @@ public class FormularioFornecedores extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         Fornecedores obj = new Fornecedores();
         obj.setId(Integer.valueOf(txtCodigo.getText()));
-        FornecedoresDAO dao = new FornecedoresDAO();
-        dao.Excluir(obj);
+        Fachada service = new Fachada();
+        service.excluirFornecedores(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
     }//GEN-LAST:event_btnExcluirActionPerformed

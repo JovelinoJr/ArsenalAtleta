@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Thiago William
+ * 
  */
 public class TestarConexao {
     

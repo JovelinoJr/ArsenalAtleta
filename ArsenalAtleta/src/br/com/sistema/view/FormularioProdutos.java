@@ -6,6 +6,7 @@
 package br.com.sistema.view;
 
 import br.com.sistema.dao.ClientesDAO;
+import br.com.sistema.dao.Fachada;
 import br.com.sistema.dao.FornecedoresDAO;
 import br.com.sistema.dao.ProdutosDAO;
 import br.com.sistema.model.Clientes;
@@ -27,8 +28,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
      * Creates new form FormularioClientes
      */
     public void listar(){
-        ProdutosDAO dao = new ProdutosDAO();
-        List<Produtos> lista= dao.Listar();
+        Fachada service = new Fachada();
+        List<Produtos> lista = service.listarProdutos();
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Produtos p: lista){
@@ -416,18 +417,18 @@ public class FormularioProdutos extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nome= txtDescricao.getText();
         Produtos obj = new Produtos();
-        ProdutosDAO dao = new ProdutosDAO();
+        Fachada service = new Fachada();
         Fornecedores f = new Fornecedores();
-        FornecedoresDAO daof = new FornecedoresDAO();
+        Fachada servicef = new Fachada();
         
-        obj = dao.BuscarProdutos(nome);
+        obj = servicef.buscarProduto(nome);
         if(obj.getDescricao() != null ) {
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtDescricao.setText(obj.getDescricao());
             txtPreco.setText(String.valueOf(obj.getPreco()));
             txtQtdEstoque.setText(String.valueOf(obj.getQtd_estoque()));
             
-            f = daof.BuscarFornecedores(obj.getFornecedores().getNome());
+            f = servicef.BuscarFornecedores(obj.getFornecedores().getNome());
             cbFornecedor.getModel().setSelectedItem(f);
             
         }else{
@@ -449,8 +450,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
         f = (Fornecedores)cbFornecedor.getSelectedItem();
         obj.setFornecedores(f);
         
-        ProdutosDAO daop = new ProdutosDAO();
-        daop.Editar(obj);
+        Fachada servicep = new Fachada();
+        servicep.editarProduto(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -471,8 +472,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
         
         obj.setFornecedores((Fornecedores)cbFornecedor.getSelectedItem());
         
-        ProdutosDAO dao = new ProdutosDAO();
-        dao.Salvar(obj);
+        Fachada service = new Fachada();
+        service.salvarProduto(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
         
@@ -490,8 +491,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
 
     private void btnPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaActionPerformed
         String nome = "%"+txtPesquisaDescricao.getText()+"%";
-        ProdutosDAO dao = new ProdutosDAO();
-        List<Produtos> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Produtos> lista = service.filtrarProdutosPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Produtos p: lista){
@@ -510,26 +511,18 @@ public class FormularioProdutos extends javax.swing.JFrame {
 
     private void txtPesquisaDescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaDescricaoKeyPressed
         String nome = "%"+txtPesquisaDescricao.getText()+"%";
-        ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Produtos> lista = service.filtrarProdutosPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
-            for(Clientes c: lista){
+            for(Produtos c: lista){
                 dados.addRow(new Object[]{
                     c.getId(),
-                    c.getNome(),
-                    c.getRg(),
-                    c.getCpf(),
-                    c.getEmail(),
-                    c.getTelefone(),
-                    c.getCelular(),
-                    c.getCep(),
-                    c.getEndereco(),
-                    c.getNumero(),
-                    c.getComplemento(),
-                    c.getBairro(),
-                    c.getCidade(),
-                    c.getEstado()
+                    c.getDescricao(),
+                    c.getPreco(),
+                    c.getQtd_estoque(),
+                    c.getFornecedores().getNome()
+                   
                 
                 
                 });
@@ -580,8 +573,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         Produtos obj = new Produtos();
         obj.setId(Integer.valueOf(txtCodigo.getText()));
-        ProdutosDAO daop = new ProdutosDAO();
-        daop.Excluir(obj);
+        Fachada servicep = new Fachada();
+        servicep.excluirProduto(obj);
         Utilitarios util = new Utilitarios();
         util.LimparTela(painel_dados_pessoais);
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -604,8 +597,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
     }//GEN-LAST:event_cbFornecedorActionPerformed
 
     private void cbFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbFornecedorMouseClicked
-       FornecedoresDAO dao = new FornecedoresDAO();
-      List<Fornecedores> lista = dao.Listar();
+       Fachada service = new Fachada();
+      List<Fornecedores> lista = service.Listar();
        cbFornecedor.removeAllItems();
        for(Fornecedores f : lista){
        cbFornecedor.addItem(f);
@@ -614,8 +607,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
 
     private void txtPesquisaDescricaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaDescricaoKeyReleased
         String nome = "%"+txtPesquisaDescricao.getText()+"%";
-        ProdutosDAO dao = new ProdutosDAO();
-        List<Produtos> lista = dao.Filtrar(nome);
+        Fachada service = new Fachada();
+        List<Produtos> lista = service.filtrarProdutosPorNome(nome);
             DefaultTableModel dados = (DefaultTableModel)tabela.getModel();
             dados.setNumRows(0);
             for(Produtos p: lista){

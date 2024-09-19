@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Thiago William
+ * 
  */
 public class Utilitarios {
     public void LimparTela(JPanel container) {
